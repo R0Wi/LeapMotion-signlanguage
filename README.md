@@ -9,3 +9,9 @@ Python 2.7.16
 - Open the LeapMotion visualizer via task menu. If you're on Windows 10 and you have troubles to see anything apply the fix from `install/Win10 Fall Creator's Fix V2` by stopping LeapMotion controller Windows service, copying the two files to `C:\Program Files (x86)\Leap Motion\Core Services` (and overwriting the files there) and restarting the LeapMotion controller (more information: https://forums.leapmotion.com/t/resolved-windows-10-fall-creators-update-bugfix/6585)
 - Run `install.bat` to install all python dependencies.
 - Open terminal and type `python app.py` to start the app.
+
+# Run app
+- TODO
+
+# Train model
+- TODO
