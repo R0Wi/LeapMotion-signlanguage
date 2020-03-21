@@ -4,32 +4,8 @@
 # Do not make changes to this file unless you know what you are doing--modify
 # the SWIG interface file instead.
 
+import LeapPython
 
-
-
-
-from sys import version_info
-if version_info >= (2, 6, 0):
-    def swig_import_helper():
-        from os.path import dirname
-        import imp
-        fp = None
-        try:
-            fp, pathname, description = imp.find_module('LeapPython', [dirname(__file__)])
-        except ImportError:
-            import LeapPython
-            return LeapPython
-        if fp is not None:
-            try:
-                _mod = imp.load_module('LeapPython', fp, pathname, description)
-            finally:
-                fp.close()
-            return _mod
-    LeapPython = swig_import_helper()
-    del swig_import_helper
-else:
-    import LeapPython
-del version_info
 try:
     _swig_property = property
 except NameError:
