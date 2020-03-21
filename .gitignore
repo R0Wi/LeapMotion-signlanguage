@@ -54,3 +54,7 @@ target/
 #*.npy
 #*.pkl
 
+# Exceptions for lib-folder (include everything into git here)
+!lib/
+!lib/x64/*
+!lib/x86/*
