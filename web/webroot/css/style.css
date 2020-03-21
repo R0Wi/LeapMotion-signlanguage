@@ -1,0 +1,56 @@
+#container {
+    display: table;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+#content {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 52pt;
+    white-space: nowrap;
+}
+
+#scores {
+    margin-top: 80px;
+    font-family: 'Lato', sans-serif;
+}
+#prompt {
+  font-size: 32;
+}
+
+.lato {
+  font-family: 'Lato', sans-serif;
+}
+
+#current_char_target {
+    position: absolute;
+    right: 10;
+    font-size: 32;
+}
+
+#current_char_match {
+    position: absolute;
+    left: 10;
+    font-size: 32;
+    width: calc(100vw - 20px);
+}
+
+#progressbar {
+    background: slategray;
+    text-align: center;
+    overflow: hidden;
+}
+
+#myModal {
+    margin-top: 300px;
+}
+
+#back_to_splash, #back_to_splash_link {
+    float: right;
+    border-style: none;
+    margin-right: 70px;
+}
+

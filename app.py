@@ -1,70 +1,39 @@
-import lib_locator
-from classifier import clf
-from flask import Flask, render_template, jsonify, request, json
-from hand_data import get_hand_position
-from lib import Leap
-import pickle
-import random
-#import redis
+from clf_loader import clf                                          # Load the classifier data
+from flask import Flask, render_template, jsonify, request, json    # Load the webserver library
+from leap_controller import LeapMotionController                    # Load the LeapMotion controller wrapper
 
-app = Flask(__name__)
+# Configure Flask library
+app = Flask(__name__,
+            static_url_path='', 
+            static_folder='web/webroot',
+            template_folder='web/templates')
 
-controller = Leap.Controller()
-controller.set_policy(Leap.Controller.POLICY_BACKGROUND_FRAMES)
+# Get instance of connected controller
+controller = LeapMotionController()
 
-#r = redis.StrictRedis(host='localhost', port=6379, db=0)
-
-# @app.route('/translate')
-# def translate():
-#     return render_template('ui.html')
-
+# Route for showing the index page
 @app.route('/')
 def tutorial():
-    return render_template('tutorial.html')
+    return render_template('index.html')
 
-# @app.route('/score', methods=['POST'])
-# def add_score():
-#     data = request.form
-#     try:
-#         record = json.dumps({'user': data['user'], 'score': int(data['score'])})
-#         print record
-#         result = r.lpush('scoreboard', record)
-#         return jsonify(error=result)
-#     except KeyError:
-#         return jsonify(error=True)
-
-# @app.route('/scores', methods=['GET'])
-# def get_scores():
-#     scores = [json.loads(i) for i in r.lrange('scoreboard', 0, 100)]
-#     scores.sort(key=lambda s: s['score'], reverse=True)
-#     return jsonify(scores=scores[:10])
-
+# Ajax route for getting current prediction 
+# as probability table
 @app.route('/currentPrediction')
 def current_prediction():
-    # Check hand
-    hand_pos = get_hand_position(controller)
-    if not hand_pos:
-        return jsonify(hasData=False)
+    global controller
 
-    features = []
-    for _, featureValue in hand_pos.iteritems():
-        features.append(featureValue)
+    # Check hand
+    hand_data = controller.read_hand_data()
+    if not hand_data:
+        return jsonify(hasData=False)
 
     # Return the propabillity-table to the client
     # in form: [["a", 0.125202], ["b", 0.00021], ... ]
     classes = clf.classes_
-    probs = zip(classes, clf.predict_proba([features])[0])
+    probs = zip(classes, clf.predict_proba([hand_data])[0])
 
     return jsonify(hasData=True, probs=probs)
 
-# @app.route('/splash')
-# def splash():
-#     return render_template('splash.html')
-
-
-# @app.route('/scoreboard')
-# def scoreboard():
-#     return jsonify(user_score=100)
-
+# MAIN
 if __name__ == '__main__':
     app.run(debug=True)
