@@ -1,7 +1,7 @@
-from classifier import clf
+from clf_loader import clf
 from collections import OrderedDict
 from db import add_data
-from hand_data import get_hand_position
+from leap_controller import read_hand_data
 from lib import Leap
 import time
 import pickle

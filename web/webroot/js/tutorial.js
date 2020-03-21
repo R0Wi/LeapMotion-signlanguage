@@ -16,7 +16,7 @@ function checkPrediction(){
             var nextChar = chars[nextIndex];
 
             goal = nextChar;
-            $('#realimage').attr('src', 'static/asl/' + nextChar + '.gif');
+            $('#realimage').attr('src', 'img/asl/' + nextChar + '.gif');
           }
 
           setProbabilityToUi(prob);
