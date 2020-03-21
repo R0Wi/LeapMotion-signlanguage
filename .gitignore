@@ -58,3 +58,4 @@ target/
 !lib/
 !lib/x64/*
 !lib/x86/*
+.vscode/settings.json
