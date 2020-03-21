@@ -1,10 +1,4 @@
-import sys
-is64bit = sys.maxsize > 2**32
-if is64bit:
-    print("Running on 64bit-machine")
-else:
-    print("Running on 32bit-machine")
-
+import lib_locator
 from classifier import clf
 from flask import Flask, render_template, jsonify, request, json
 from hand_data import get_hand_position
