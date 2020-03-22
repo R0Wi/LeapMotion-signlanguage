@@ -1,11 +1,13 @@
-#container {
+#container
+{
     display: table;
-    height: 100%;
-    width: 100%;
+    height: 100vh;
+    width: 100vw;
     text-align: center;
 }
 
-#content {
+#content
+{
     display: table-cell;
     vertical-align: middle;
     text-align: center;
@@ -13,44 +15,46 @@
     white-space: nowrap;
 }
 
-#scores {
-    margin-top: 80px;
-    font-family: 'Lato', sans-serif;
-}
-#prompt {
-  font-size: 32;
-}
-
-.lato {
-  font-family: 'Lato', sans-serif;
-}
-
-#current_char_target {
-    position: absolute;
-    right: 10;
+#current_char_match
+{
     font-size: 32;
+    width: 500px;
 }
 
-#current_char_match {
-    position: absolute;
-    left: 10;
-    font-size: 32;
-    width: calc(100vw - 20px);
-}
-
-#progressbar {
-    background: slategray;
+#progressbar
+{
+    background: transparent;
     text-align: center;
     overflow: hidden;
 }
 
-#myModal {
-    margin-top: 300px;
+.jumbotron
+{
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-#back_to_splash, #back_to_splash_link {
-    float: right;
-    border-style: none;
-    margin-right: 70px;
-}
-
+.progress-bar-vertical
+{
+    width: 100%;
+    height: 58.5%;
+    float: left;
+    display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
+    display: -ms-flexbox;  /* TWEENER - IE 10 */
+    display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
+    display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+    align-items: flex-end;
+    -webkit-align-items: flex-end; /* Safari 7.0+ */
+    background-color: transparent;
+    border-radius: 0px;
+    box-shadow: none;
+  }
+  
+  .progress-bar-vertical .progress-bar
+  {
+    width: 100%;
+    height: 0;
+    -webkit-transition: height 0.6s ease;
+    -o-transition: height 0.6s ease;
+    transition: height 0.6s ease;
+  }

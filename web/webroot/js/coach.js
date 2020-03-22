@@ -13,7 +13,11 @@ function checkPrediction()
     {
         if (data.hasData)
         {
-          var prob = getProbability(goal, data["probs"]);
+          var probabilityTable = data["probs"];
+
+          setRecognizedImage(probabilityTable);
+
+          var prob = getProbability(goal, probabilityTable);
 
           if (prob > probabilityThreshold)
           {
@@ -27,12 +31,10 @@ function checkPrediction()
             var nextChar = chars[nextIndex];
             goal = nextChar;
 
-            $('#realimage').attr('src', 'img/alphabet/' + nextChar + '.png');
+            $('#demandedLetterImage').attr('src', 'img/alphabet/' + nextChar + '.png');
           }
 
-          setProbabilityToUi(prob);
-          if (nextChar)
-            $('#current_char_target_text').text(nextChar.toUpperCase());
+          setProbabilityToUi(prob, probabilityTable);
         }
         else
         {
@@ -41,32 +43,31 @@ function checkPrediction()
     });
 }
 
-function getProbability(char, probabilityTable)
+function getProbability(demandedLetter, probabilityTable)
 {
   for (let i = 0; i < probabilityTable.length; i++)
   {
-    const currentChar = probabilityTable[i][0];
+    const currentLetter = probabilityTable[i][0];
 
-    if (currentChar == char)
-    {
+    if (currentLetter == demandedLetter)
       return probabilityTable[i][1];
-    }
   }
 
   return 0;
 }
 
-function setProbabilityToUi(probability)
+function setProbabilityToUi(probability, probabilityTable)
 {
   const rounded = Math.round(probability * 100);
 
   $('#current_char_match_text').text(rounded + " %");
 
-  // Set indicator color
+  // Set indicator threshold
   const thirdThreshold = (probabilityThreshold / 3) * 100;
 
   var bgClass = null;
 
+  // determine progress bar color
   if (probability == 0)
   {
     bgClass = "";
@@ -84,19 +85,42 @@ function setProbabilityToUi(probability)
     bgClass = "progress-bar-success";
   }
 
+  // remove color classes of progress bar
   $('#current_char_match_progress').removeClass("progress-bar-danger");
   $('#current_char_match_progress').removeClass("progress-bar-warning");
   $('#current_char_match_progress').removeClass("progress-bar-success");
 
+  // set color of progress bar
   if (bgClass)
   {
     $('#current_char_match_progress').addClass(bgClass);
   }
 
+  // convert to percent
   const toHundred = (1 / probabilityThreshold) * rounded;
 
-  $('#current_char_match_progress').css('width', toHundred+'%').attr('aria-valuenow', toHundred);  
+  // set progress bar value
+  $('#current_char_match_progress').css('height', toHundred+'%').attr('aria-valuenow', toHundred);  
   $('#current_char_match_progress').text(rounded + " %");
+}
+
+function setRecognizedImage(probabilityTable)
+{
+  var recognizedLetter = null;
+
+  probabilityTable.forEach(element =>
+  {
+    if (recognizedLetter == null)
+    {
+      recognizedLetter = element;
+      return;
+    }
+
+    if (element[1] > recognizedLetter[1])
+      recognizedLetter = element;
+  });
+
+  $('#recognizedLetterImage').attr('src', 'img/alphabet/' + recognizedLetter[0] + '.png');
 }
 
 $(document).ready(function()
