@@ -1,5 +1,8 @@
-const chars = 'abcdefghijklmnopqrstuvwxyz';
-const probabilityThreshold = 0.6;
+// alphabet letters
+const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
+// threshold to accept shown hand figure by user
+const probabilityThreshold = 0.75;
 
 // poll interval
 const interval = 500;
@@ -21,14 +24,14 @@ function checkPrediction()
 
           if (prob > probabilityThreshold)
           {
-            var nextIndex = Math.floor(Math.random() * chars.length);
+            var nextIndex = Math.floor(Math.random() * alphabet.length);
 
-            if (chars[nextIndex] == goal)
+            if (alphabet[nextIndex] == goal)
             {
-              nextIndex = (nextIndex + 1) % chars.length;
+              nextIndex = (nextIndex + 1) % alphabet.length;
             }
 
-            var nextChar = chars[nextIndex];
+            var nextChar = alphabet[nextIndex];
             goal = nextChar;
 
             $('#demandedLetterImage').attr('src', 'img/alphabet/' + nextChar + '.png');
@@ -56,14 +59,15 @@ function getProbability(demandedLetter, probabilityTable)
   return 0;
 }
 
-function setProbabilityToUi(probability, probabilityTable)
+function setProbabilityToUi(probability)
 {
   const rounded = Math.round(probability * 100);
 
   $('#current_char_match_text').text(rounded + " %");
 
-  // Set indicator threshold
-  const thirdThreshold = (probabilityThreshold / 3) * 100;
+  // calculate third of threshold
+  // const thirdThreshold = (probabilityThreshold / 3) * 100;
+  const thirdThreshold = 100 / 3;
 
   var bgClass = null;
 
@@ -71,24 +75,30 @@ function setProbabilityToUi(probability, probabilityTable)
   if (probability == 0)
   {
     bgClass = "";
+
+    // reset recognized image
+    $('#recognizedLetterImage').attr('src', '');
   }
   else if (rounded < thirdThreshold)
   {
-    bgClass = "progress-bar-danger";
+    // set progressbar color to red
+    bgClass = "bg-danger";
   }
   else if (rounded < thirdThreshold * 2)
   {
-    bgClass = "progress-bar-warning";
+    // set progressbar color to yellow
+    bgClass = "bg-warning";
   }
   else
   {
-    bgClass = "progress-bar-success";
+    // set progressbar color to green
+    bgClass = "bg-success";
   }
 
   // remove color classes of progress bar
-  $('#current_char_match_progress').removeClass("progress-bar-danger");
-  $('#current_char_match_progress').removeClass("progress-bar-warning");
-  $('#current_char_match_progress').removeClass("progress-bar-success");
+  $('#current_char_match_progress').removeClass("bg-danger");
+  $('#current_char_match_progress').removeClass("bg-warning");
+  $('#current_char_match_progress').removeClass("bg-success");
 
   // set color of progress bar
   if (bgClass)
@@ -96,11 +106,8 @@ function setProbabilityToUi(probability, probabilityTable)
     $('#current_char_match_progress').addClass(bgClass);
   }
 
-  // convert to percent
-  const toHundred = (1 / probabilityThreshold) * rounded;
-
   // set progress bar value
-  $('#current_char_match_progress').css('height', toHundred+'%').attr('aria-valuenow', toHundred);  
+  $('#current_char_match_progress').css('height', rounded + '%').attr('aria-valuenow', rounded);
   $('#current_char_match_progress').text(rounded + " %");
 }
 
@@ -130,4 +137,7 @@ $(document).ready(function()
       // Poll server for current prediction
       checkPrediction();
     }, interval);
+
+    $('.bar-step').css('bottom', 'calc(' + probabilityThreshold * 100 + '%  - 1.1rem)');
+    $('.label-percent').text(probabilityThreshold * 100 + '%');
  });
