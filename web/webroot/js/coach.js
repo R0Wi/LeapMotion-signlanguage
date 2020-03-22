@@ -10,6 +10,42 @@ const interval = 500;
 // first character a
 var goal = 'a';
 
+// recent comment state
+var recentCommentState = '';
+
+const comments =
+{
+  "perfect":
+  [
+    "Well done !",
+    "You have made it !",
+    "This can only be done by a professional !",
+    "Hats off, well done !",
+  ],
+  "super":
+  [
+    "So close !",
+    "On target by a hair's breadth !",
+    "Only a few percent to go !",
+    "The goal is very close !"
+  ],
+  "good":
+  [
+    "Quite acceptable, but there's more !",
+    "Already better, but not perfect yet !",
+    "Almost there !",
+    "There is not much left to reach the goal !"
+  ],
+  "bad":
+  [
+    "I'm sure you can do better than that !",
+    "Try it again !",
+    "I can't accept that !",
+    "Well, that wasn't very good.",
+    "There's still a long way to go."
+  ]
+};
+
 function checkPrediction()
 {
     $.get('/currentPrediction', '', function(data, textStatus, jqXHR)
@@ -71,44 +107,91 @@ function setProbabilityToUi(probability)
 
   var bgClass = null;
 
+  var commentState = '';
+  var comment = null;
+
   // determine progress bar color
   if (probability == 0)
   {
-    bgClass = "";
+    bgClass = '';
 
     // reset recognized image
     $('#recognizedLetterImage').attr('src', '');
+
+    // set comment
+    $('#comment').text('No hand detected !');
+
+    // set recent comment state
+    recentCommentState = '';
   }
   else if (rounded < thirdThreshold)
   {
     // set progressbar color to red
-    bgClass = "bg-danger";
+    bgClass = 'bg-danger';
+
+    // set comment
+    comment = getComment('bad');
+
+    // set comment state
+    commentState = 'bad';
   }
   else if (rounded < thirdThreshold * 2)
   {
     // set progressbar color to yellow
-    bgClass = "bg-warning";
+    bgClass = 'bg-warning';
+
+    // set comment
+    comment = getComment('good');
+
+    // set comment state
+    commentState = 'good';
   }
   else
   {
     // set progressbar color to green
-    bgClass = "bg-success";
+    bgClass = 'bg-success';
+
+    // set comment and comment state
+    if (rounded < thirdThreshold * 3)
+    {
+      comment = getComment('super');
+      commentState = 'super';
+    }
+    else
+    {
+      comment = getComment('perfect');
+      commentState = 'perfect';
+    }
   }
 
   // remove color classes of progress bar
-  $('#current_char_match_progress').removeClass("bg-danger");
-  $('#current_char_match_progress').removeClass("bg-warning");
-  $('#current_char_match_progress').removeClass("bg-success");
+  $('#current_char_match_progress').removeClass('bg-danger');
+  $('#current_char_match_progress').removeClass('bg-warning');
+  $('#current_char_match_progress').removeClass('bg-success');
 
   // set color of progress bar
   if (bgClass)
   {
     $('#current_char_match_progress').addClass(bgClass);
+
+    if (recentCommentState != commentState)
+    {
+      // set comment text
+      $('#comment').text(comment);
+
+      // set recent comment state
+      recentCommentState = commentState;
+    }
   }
 
   // set progress bar value
   $('#current_char_match_progress').css('height', rounded + '%').attr('aria-valuenow', rounded);
-  $('#current_char_match_progress').text(rounded + " %");
+  $('#current_char_match_progress').text(rounded + ' %');
+}
+
+function getComment(probability)
+{
+  return comments[probability][Math.floor(Math.random() * comments[probability].length)];
 }
 
 function setRecognizedImage(probabilityTable)

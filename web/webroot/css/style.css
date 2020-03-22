@@ -77,3 +77,9 @@ body
     height:1px;
     width:100%;
 }
+
+#comment
+{
+    margin-top: 5%;
+    font-size: 2rem;
+}
