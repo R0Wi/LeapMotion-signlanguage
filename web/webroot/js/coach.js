@@ -163,8 +163,8 @@ function setProbabilityToUi(probability)
   {
     bgClass = '';
 
-    // reset recognized image
-    $('#recognizedLetterImage').attr('src', '');
+    // set questionmark for recognized image
+    $('#recognizedLetterImage').attr('src', 'img/alphabet/questionmark.png');
 
     // set comment
     $('#comment').text('No hand detected !');
