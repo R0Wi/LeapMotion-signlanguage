@@ -1,11 +1,3 @@
 Flask
-itsdangerous
 Jinja2
-MarkupSafe
-numpy
-redis
 scikit-learn
-scipy
-SQLAlchemy
-Werkzeug
-wheel
