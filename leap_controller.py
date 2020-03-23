@@ -21,13 +21,10 @@ class LeapMotionController:
         self._controller = Leap.Controller()
         self._controller.set_policy(Leap.Controller.POLICY_BACKGROUND_FRAMES)
 
-    def read_hand_data(self, blocking=False):
+    def read_hand_data(self):
         frame = self._controller.frame()
-        if not blocking and len(frame.fingers) == 0:
+        if len(frame.fingers) == 0:
             return None
-
-        while len(frame.fingers) == 0:
-            frame = self._controller.frame()
 
         fingers = self._controller.frame().fingers
         finger_points = []
