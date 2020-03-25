@@ -105,7 +105,7 @@ function showNextLetterModal(letter, prob)
   $('#modalNextLetterImage').attr('src', 'img/alphabet/' + letter + '.png');  
   $('#modalNextLetterText').html('You\'ve learned the <b>' + letter.toUpperCase() + ' </b>letter successfully.');
   $('#modalNextLetterComment').text(getComment('perfect'));
-  $('#modalNextLetterAccurency').html('Accurency : <b>' + (prob * 100).toFixed(2) + ' </b>%');
+  $('#modalNextLetterAccuracy').html('Accuracy : <b>' + (prob * 100).toFixed(2) + ' </b>%');
 
   // show modal window
   $('#modalNextLetter').modal('show');
