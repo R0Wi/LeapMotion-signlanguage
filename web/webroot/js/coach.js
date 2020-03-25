@@ -13,6 +13,13 @@ var goal = 'a';
 // recent comment state
 var recentCommentState = '';
 
+// poll timer
+var pollTimer = null;
+
+// timer running flag
+var timerRunning = false;
+
+// comments on player result
 const comments =
 {
   "perfect":
@@ -48,38 +55,79 @@ const comments =
 
 function checkPrediction()
 {
-    $.get('/currentPrediction', '', function(data, textStatus, jqXHR)
-    {
-        if (data.hasData)
+  if (!timerRunning)
+    return;
+
+  $.get('/currentPrediction', '', function(data, textStatus, jqXHR)
+  {
+      if (data.hasData)
+      {
+        var probabilityTable = data["probs"];
+
+        setRecognizedImage(probabilityTable);
+
+        var prob = getProbability(goal, probabilityTable);
+
+        if (prob > probabilityThreshold)
         {
-          var probabilityTable = data["probs"];
+          var nextIndex = Math.floor(Math.random() * alphabet.length);
 
-          setRecognizedImage(probabilityTable);
-
-          var prob = getProbability(goal, probabilityTable);
-
-          if (prob > probabilityThreshold)
+          if (alphabet[nextIndex] == goal)
           {
-            var nextIndex = Math.floor(Math.random() * alphabet.length);
-
-            if (alphabet[nextIndex] == goal)
-            {
-              nextIndex = (nextIndex + 1) % alphabet.length;
-            }
-
-            var nextChar = alphabet[nextIndex];
-            goal = nextChar;
-
-            $('#demandedLetterImage').attr('src', 'img/alphabet/' + nextChar + '.png');
+            nextIndex = (nextIndex + 1) % alphabet.length;
           }
 
-          setProbabilityToUi(prob, probabilityTable);
+          showNextLetterModal(goal, prob);
+
+          var nextChar = alphabet[nextIndex];
+          goal = nextChar;
+
+          $('#demandedLetterImage').attr('src', 'img/alphabet/' + nextChar + '.png');
+
+          return;
         }
-        else
-        {
-          setProbabilityToUi(0);
-        }
-    });
+
+        setProbabilityToUi(prob, probabilityTable);
+      }
+      else
+      {
+        setProbabilityToUi(0);
+      }
+  });
+}
+
+function showNextLetterModal(letter, prob)
+{  
+  stopPollTimer();
+
+  clearView();
+
+  $('#modalNextLetterImage').attr('src', 'img/alphabet/' + letter + '.png');  
+  $('#modalNextLetterText').html('You\'ve learned the <b>' + letter.toUpperCase() + ' </b>letter successfully.');
+  $('#modalNextLetterComment').text(getComment('perfect'));
+  $('#modalNextLetterAccuracy').html('Accuracy : <b>' + (prob * 100).toFixed(2) + ' </b>%');
+
+  // show modal window
+  $('#modalNextLetter').modal('show');
+}
+
+function stopPollTimer()
+{
+  // set timer running flag
+  timerRunning = false;
+
+  // stop poll timer
+  clearInterval(pollTimer);
+}
+
+// reset view for next letter
+function clearView()
+{
+  // set progressbar value to 0
+  setProgressbarValue(0);
+
+  // set comment text
+  $('#comment').text('');
 }
 
 function getProbability(demandedLetter, probabilityTable)
@@ -185,15 +233,23 @@ function setProbabilityToUi(probability)
   }
 
   // set progress bar value
-  $('#current_char_match_progress').css('height', rounded + '%').attr('aria-valuenow', rounded);
-  $('#current_char_match_progress').text(rounded + ' %');
+  setProgressbarValue(rounded);
 }
 
+// set progressbar value
+function setProgressbarValue(value)
+{
+  $('#current_char_match_progress').css('height', value + '%').attr('aria-valuenow', value);
+  $('#current_char_match_progress').text(value + ' %');
+}
+
+// get random text of given categorie
 function getComment(probability)
 {
   return comments[probability][Math.floor(Math.random() * comments[probability].length)];
 }
 
+// set recognized image
 function setRecognizedImage(probabilityTable)
 {
   var recognizedLetter = null;
@@ -213,14 +269,60 @@ function setRecognizedImage(probabilityTable)
   $('#recognizedLetterImage').attr('src', 'img/alphabet/' + recognizedLetter[0] + '.png');
 }
 
-$(document).ready(function()
+ // window on load event
+$(window).on('load',function()
 {
-    var pollInterval = setInterval(function()
-    {
-      // Poll server for current prediction
-      checkPrediction();
-    }, interval);
+  var delayMs = 500; // delay in milliseconds
 
-    $('.bar-step').css('bottom', 'calc(' + probabilityThreshold * 100 + '%  - 1.1rem)');
-    $('.label-percent').text(probabilityThreshold * 100 + '%');
- });
+  setTimeout(function()
+  {
+    // show modal window
+    $('#modalStartup').modal('show');
+  }, delayMs);
+});
+
+// startup modal hide event
+$('#modalStartup').on('hidden.bs.modal', function (e)
+{
+  // start poll timer
+  startPollTimer();
+
+  // set threshold indicator
+  $('.bar-step').css('bottom', 'calc(' + probabilityThreshold * 100 + '%  - 1.1rem)');
+  $('.label-percent').text(probabilityThreshold * 100 + '%');
+})
+
+// next letter modal hide event
+$('#modalNextLetter').on('hidden.bs.modal', function (e)
+{
+  // start poll timer
+  startPollTimer();
+})
+
+// function to start poll timer
+function startPollTimer()
+{
+  // set timer running flag
+  timerRunning = true;
+
+  pollTimer = setInterval(function ()
+  {
+    // Poll server for current prediction
+    checkPrediction();
+  }, interval);
+}
+
+$( "#helpButton" ).click(function()
+{
+  stopPollTimer();
+
+  // show modal help window
+  $('#modalHelp').modal('show');
+});
+
+// help modal hide event
+$('#modalHelp').on('hidden.bs.modal', function (e)
+{
+  // start poll timer
+  startPollTimer();
+})
