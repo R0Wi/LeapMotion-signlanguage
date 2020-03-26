@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>ASL LeapMotion</title>
+    <title>ASL Leap Motion</title>
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/google_fonts.css">
@@ -19,7 +19,7 @@
               <img width="100%" src="/img/logo.png"/>
             </div>
             <div>
-              <h4 class="mt-0 mb-0 pt-2"><b>ASL LeapMotion</b></h4>
+              <h4 class="mt-0 mb-0 pt-2"><b>ASL Leap Motion</b></h4>
               <p class="mt-0 mb-0 pt-2">The easiest way to learn the <b>American Sign Language (ASL)</b>.</p>
               </div>
           </div>
@@ -54,13 +54,60 @@
 
     <!-- Modal Help -->
     <div class="modal in fade" id="modalHelp" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true" data-backdrop="static">
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-dialog modal-dialog-centered w-75" role="document" style="max-width: 80%;">
         <div class="modal-content">
           <div class="modal-header text-center">
-            <h2 class="modal-title w-100" id="modalTitle">ASL LeapMotion Help</h2>
+            <h2 class="modal-title w-100" id="modalTitle">ASL Leap Motion Help</h2>
           </div>
           <div class="modal-body text-center">
-            TODO
+            <h4>Introduction</h4>
+            <div class="text-justify">
+              ASL LeapMotion teaches newcomers the alphabet of American Sign Language, also called ASL.
+              The user is shown a letter of the finger alphabet and then he has to try to reproduce the letter shown by hand.
+              However, this is not as easy as it sounds at first glance, because there is a artificial intelligence.
+              This AI has to be convinced that the hand-formed letter is also the one displayed on the surface.
+            </div>
+            <h4 class="mt-3">How To</h4>
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-6 col-12">
+                  <img class="w-100" src="/img/overview.png">
+                </div>
+                <div class="col-lg-6 col-12 text-justify">
+                  <p>
+                    First of all you have to check if the Leap Motion controller is installed and set up correctly.
+                    When you visit the website of the application a welcome screen is initially displayed.
+                    With the "Start" button it disappears and the actual learning interface becomes visible.
+                  </p>
+                  <p>
+                    <b>(1)</b> The picture on the left side shows the finger alphabet letter which is currently being learned. The letter has to be reproduced by hand.
+                  </p>
+                  <p>
+                    <b>(2)</b> The picture on the right side or the question mark if no hand is recognized, shows the letter which the AI believes to recognize at the moment.
+                  </p>
+                  <p>
+                    <b>(3)</b> A vertical progress bar is shown between the two images. This indicates how well the current letter is recognized by the AI.
+                    If this is the case, a success window appears and shows how well the letter was recognized by the AI.
+                    By pressing the next button the window closes and the next letter for learning is displayed automatically.
+                  </p>
+                  <p>
+                    <b>(4)</b> A status text is displayed below, which adapts dynamically.
+                  </p>
+                  <p>
+                    <b>(5)</b> There is a help button in the lower right corner. You have probably found it already.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <h4 class="mt-3">FAQ</h4>
+            <div class="text-justify">
+              <b>"No hand detected" is still displayed although one hand is above the sensor ?</b>
+              <p>
+                First check if the Leap Motion Sensor is properly connected (green LED is on) and the Leap Motion Control Panel is started.
+                If the Leap Motion Software tray icon is also green, the sensor should work correctly.
+                Sometimes it helps to reconnect the sensor to the computer.
+              </p>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" data-dismiss="modal">Got it</button>
