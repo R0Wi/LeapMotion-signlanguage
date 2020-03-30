@@ -4,7 +4,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/google_fonts.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/lightbox.min.css">
   </head>
   <body>
     <!-- Modal Startup -->
@@ -71,7 +72,9 @@
             <div class="container">
               <div class="row">
                 <div class="col-lg-6 col-12">
-                  <img class="w-100" src="/img/overview.png">
+                  <a href="/img/overview.png" data-lightbox="help" data-title="Overview">
+                    <img class="w-100" src="/img/overview.png">
+                  </a>
                 </div>
                 <div class="col-lg-6 col-12 text-justify">
                   <p>
@@ -97,6 +100,23 @@
                     <b>(5)</b> There is a help button in the lower right corner. You have probably found it already.
                   </p>
                 </div>
+              </div>
+            </div>
+            <h4 class="mt-3">General hint</h4>
+            <div class="text-justify">
+              <div>
+                Start making gestures with a horizontal open hand. Then contract your
+                fingers to form the letter. The Leap Motion controller works best that way.
+              </div>
+              <div class="hint-img-wrapper">
+                <a href="/img/hint1.jpg" data-lightbox="help" data-title="Start with open hand">
+                  <img src="/img/hint1.jpg">
+                </a>
+              </div>
+              <div class="hint-img-wrapper">
+                <a href="/img/hint2.jpg" data-lightbox="help" data-title="Contract to position">
+                  <img src="/img/hint2.jpg">
+                </a>
               </div>
             </div>
             <h4 class="mt-3">FAQ</h4>
@@ -155,5 +175,6 @@
   </body>
   <script src="/js/jquery.min.js"></script>
   <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/lightbox.min.js"></script>
   <script src="/js/coach.js"></script>
 </html>
