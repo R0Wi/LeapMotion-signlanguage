@@ -16,6 +16,25 @@ Python 2.7.16
 - Open a <b>Webbrowser</b> on your local system and point to address <b>http://localhost:5000</b>.
 - Try your best and <b>have fun :-)</b>
 
+# Project structure
+The following table shows the main structure of the project and gives you an idea,
+which component is responsible for which task.
+
+| File / Folder        | Comment                                                                                                                                 |
+|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| .vscode              | Debug profiles & settings for Microsoft Visual Studio Code                                                                              |
+| install              | Contains fixes for Leap Motion SDK v2 on Windows 10.                                                                                    |
+| lib                  | Contains the Leap Motion SDK for python.                                                                                                |
+| web/templates        | Contains HTML templates for Flask framework. They will be delivered on the appropriate endpoints.                                       |
+| web/webroot          | Contains the static webroot of Flask. Files like images, javascript and css reside here.                                                |
+| `app.py`             | Main file for the app. Contains all startup code and the Flask endpoints.                                                               |
+| `clf_loader.py`      | Responsible for loading the machine learning classifier.                                                                                |
+| `clf_pkl`            | Pretrained model for classification. Compatiple with scikit-learn only.                                                                 |
+| `install.bat`        | Must be executed once before the app is started. This will install all python libraries used in  this project.                          |
+| `leap_controller.py` | Wrapper over the native Leap Motion Controller class. Provides access to hand-data which the machine learning algorithm can understand. |
+| `requirements.txt`   | List of python dependencies.                                                                                                            |
+| `run.bat`            | Script to run the web application.                                                                                                      |
+
 # Debug
 This project is bundled with a folder called `.vscode` which includes all the necessary information for <b>Microsoft Visual Studio Code</b> debugger. To have the debugger properly configured for python 2.7 please visit https://code.visualstudio.com/docs/python/debugging.
 
