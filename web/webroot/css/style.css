@@ -55,10 +55,8 @@
     transition: height 0.6s ease;
 }
 
-body
-{
-    height: 100vh;
-    width: 100vw;
+.container img {
+    max-width: 350px;
 }
 
 .bar-step
