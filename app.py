@@ -3,12 +3,13 @@ from flask import Flask, render_template, jsonify, request, json    # Load the w
 from leap_controller import LeapMotionController                    # Load the LeapMotion controller wrapper
 
 # Configure Flask library
+# (NOTE:: default-port is 5000)
 app = Flask(__name__,
             static_url_path='', 
             static_folder='web/webroot',
             template_folder='web/templates')
 
-# Get instance of connected controller
+# Get instance of connected controller (wrapper class)
 controller = LeapMotionController()
 
 # Route for showing the index page

@@ -26,7 +26,7 @@ class LeapMotionController:
         if len(frame.fingers) == 0:
             return None
 
-        fingers = self._controller.frame().fingers
+        fingers = frame.fingers
         finger_points = []
         for finger in fingers:
             metacarpal_bone_end = finger.bone(Bone.TYPE_METACARPAL).next_joint
@@ -39,7 +39,7 @@ class LeapMotionController:
             finger_points.append(intermediate_bone_end)
             finger_points.append(distal_bone_end)
 
-        hands = self._controller.frame().hands
+        hands = frame.hands
         if len(hands) == 0:
             return None
 
