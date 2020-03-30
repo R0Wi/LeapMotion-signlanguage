@@ -87,7 +87,7 @@ function checkPrediction()
           return;
         }
 
-        setProbabilityToUi(prob, probabilityTable);
+        setProbabilityToUi(prob);
       }
       else
       {
