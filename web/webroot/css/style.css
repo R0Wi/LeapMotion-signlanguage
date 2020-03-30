@@ -97,3 +97,13 @@
     bottom: -4px;
     right: 5%;
 }
+
+.modal-content .hint-img-wrapper img {
+    max-width: 150px;
+}
+
+.modal-content .hint-img-wrapper {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

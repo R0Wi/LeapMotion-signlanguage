@@ -28,6 +28,11 @@ There are two debug profiles included in the `.vscode/launch.json` you can use:
 Currently we <b>only support Windows</b> as platform for this app. But theoretically it could be run on Linux and MacOS, too. We provide the LeapMotion library files for these platforms but we didn't test them.
 
 # Used Libraries
+### Frontend
+- Bootstrap (https://getbootstrap.com/)
+- jQuery (https://jquery.com/)
+- LIGHTBOX (https://lokeshdhakar.com/projects/lightbox2/)
+### Backend
 - Flask (https://palletsprojects.com/p/flask/)
 - Jinja2 (https://jinja.palletsprojects.com/en/2.11.x/)
 - scikit-learn (https://scikit-learn.org/stable/)
